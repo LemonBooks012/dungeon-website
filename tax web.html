@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epic Dungeon of Taxes RPG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f1e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Floating particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 215, 0, 0.6);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10px) translateX(100px); opacity: 0; }
+        }
+
+        /* Welcome Page Styles */
+        .welcome-page {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .welcome-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 600;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            margin-bottom: 1rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.3rem;
+            color: #b8860b;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .welcome-description {
+            font-size: 1.1rem;
+            color: #c0c0c0;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        .name-input-container {
+            background: linear-gradient(145deg, #2a2a3e 0%, #1e1e32 100%);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .name-input {
+            width: 300px;
+            max-width: 100%;
+            padding: 1rem;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #e0e0e0;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .name-input:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 25px;
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #4a5568, #2d3748);
+            color: #e0e0e0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        /* Game Page Styles */
+        .game-page {
+            display: none;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 1rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 600;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #b8860b;
+            margin-bottom: 1rem;
+        }
+
+        .player-welcome {
+            font-size: 1.1rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        /* Score Bar */
+        .score-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #ffd700;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .score-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .score-badge {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            font-size: 1.1rem;
+        }
+
+        .score-bar-text {
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+
+        .achievements {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .achievement {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4a5568, #2d3748);
+            border: 2px solid #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .achievement.unlocked {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .dungeon-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .quest-scroll {
+            background: linear-gradient(145deg, #2a2a3e 0%, #1e1e32 100%);
+            border: 3px solid #ffd700;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 215, 0, 0.2);
+        }
+
+        .quest-scroll:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.7),
+                0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .quest-scroll.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
+
+        .quest-scroll.completed {
+            border-color: #00ff00;
+            box-shadow: 
+                0 10px 30px rgba(0, 255, 0, 0.3),
+                inset 0 1px 0 rgba(0, 255, 0, 0.2);
+        }
+
+        .quest-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .quest-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .quest-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #ffd700;
+        }
+
+        .quest-description {
+            color: #b8b8c8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .quest-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .points-reward {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #ffd700;
+            border-radius: 20px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
+            color: #ffd700;
+        }
+
+        /* Lifelines */
+        .lifelines {
+            display: flex;
+            gap: 1rem;
+            margin-right: 1rem;
+        }
+
+        .lifeline {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4a5568, #2d3748);
+            border: 2px solid #ffd700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lifeline:hover {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            transform: scale(1.1);
+        }
+
+        .lifeline.used {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(145deg, #2a2a3e 0%, #1e1e32 100%);
+            border: 3px solid #ffd700;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .quest-content {
+            margin-bottom: 2rem;
+        }
+
+        .analogy-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid #ffd700;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .analogy-title {
+            color: #ffd700;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #ffd700;
+        }
+
+        .answers {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .answer {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .answer:hover {
+            border-color: #ffd700;
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .answer.correct {
+            border-color: #00ff00;
+            background: rgba(0, 255, 0, 0.1);
+        }
+
+        .answer.wrong {
+            border-color: #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        /* Results Page */
+        .results-page {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .results-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 600;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .final-score {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: bold;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .score-message {
+            font-size: 1.3rem;
+            color: #c0c0c0;
+            margin-bottom: 2rem;
+        }
+
+        /* Pizza Calculator Styles */
+        .pizza-calculator {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .calculator-title {
+            color: #ffd700;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .salary-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .pizza-chart {
+            width: 200px;
+            height: 200px;
+            margin: 1rem auto;
+            border-radius: 50%;
+            background: conic-gradient(
+                #ff6b6b 0deg 120deg,
+                #4ecdc4 120deg 180deg,
+                #45b7d1 180deg 240deg,
+                #96ceb4 240deg 300deg,
+                #ffeaa7 300deg 360deg
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .pizza-center {
+            width: 80px;
+            height: 80px;
+            background: #2a2a3e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #ffd700;
+            font-size: 0.9rem;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 120px;
+            right: 2rem;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            z-index: 1001;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .score-bar {
+                padding: 0.5rem 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .score-container {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .main-content {
+                margin-top: 140px;
+                padding: 1rem;
+            }
+
+            .dungeon-map {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .quest-scroll {
+                padding: 1.5rem;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+                max-width: 95%;
+            }
+
+            .btn-home {
+                top: 10px;
+                left: 10px;
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Welcome Page -->
+    <div class="welcome-page" id="welcomePage">
+        <h1 class="welcome-title">Epic Dungeon of Taxes</h1>
+        <p class="welcome-subtitle">Master the Mystical Arts of Payroll Taxes</p>
+        <p class="welcome-description">
+            Embark on an epic adventure through the dungeon of taxes! Complete 15 challenging quests, 
+            each teaching you essential payroll tax knowledge. Answer correctly to earn points toward 
+            your final score out of 100. Are you ready to become a Tax Champion?
+        </p>
+        
+        <div class="name-input-container">
+            <h3 style="color: #ffd700; margin-bottom: 1rem;">Enter Your Adventurer Name</h3>
+            <input type="text" class="name-input" id="playerName" placeholder="Your Name" maxlength="20">
+            <br>
+            <button class="btn" id="startAdventure" onclick="startGame()" disabled>Begin Your Quest</button>
+        </div>
+        
+        <div style="margin-top: 2rem; color: #888; font-size: 0.9rem;">
+            ⚔️ 15 Epic Quests • 🏆 Score Out of 100 • 🎯 Equal Weightage
+        </div>
+    </div>
+
+    <!-- Game Page -->
+    <div class="game-page" id="gamePage">
+        <!-- Home Button -->
+        <button class="btn btn-home" onclick="goHome()">🏠 Home</button>
+
+        <!-- Score Bar -->
+        <div class="score-bar">
+            <div class="score-container">
+                <div class="score-badge" id="playerNameDisplay">Adventurer</div>
+                <div class="score-bar-text">Score: <span id="scoreDisplay">0</span> / 100</div>
+                <div class="score-bar-text">Quests: <span id="questProgress">0</span> / 15</div>
+            </div>
+            <div class="lifelines">
+                <div class="lifeline" id="eliminate" title="Eliminate 2 Wrong Answers">❌</div>
+                <div class="lifeline" id="hint" title="Show Hint">💡</div>
+                <div class="lifeline" id="skip" title="Skip Question">⏭️</div>
+            </div>
+            <div class="achievements">
+                <div class="achievement" id="ach1" title="Tax Slayer">⚔️</div>
+                <div class="achievement" id="ach2" title="W-4 Master">📄</div>
+                <div class="achievement" id="ach3" title="FICA Champion">💰</div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <h1 class="title">Epic Dungeon of Taxes</h1>
+            <p class="subtitle">Master the Mystical Arts of Payroll Taxes</p>
+            <p class="player-welcome" id="welcomeMessage">Welcome, Adventurer!</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="dungeon-map" id="questMap">
+                <!-- Quests will be generated here -->
+            </div>
+
+            <!-- Pizza Calculator -->
+            <div class="pizza-calculator">
+                <h3 class="calculator-title">🍕 Tax Pizza Calculator</h3>
+                <p style="text-align: center; margin-bottom: 1rem;">See how your salary gets sliced!</p>
+                <input type="number" class="salary-input" id="salaryInput" placeholder="Enter your annual salary ($)" value="60000">
+                <div class="pizza-chart" id="pizzaChart">
+                    <div class="pizza-center">Your<br>Slice</div>
+                </div>
+                <div class="legend" id="pizzaLegend">
+                    <!-- Legend will be generated -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Page -->
+    <div class="results-page" id="resultsPage">
+        <h1 class="results-title">Quest Complete!</h1>
+        <div class="final-score" id="finalScore">0/100</div>
+        <div class="score-message" id="scoreMessage">Well done, Adventurer!</div>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+            <button class="btn" onclick="goHome()">Return Home</button>
+            <button class="btn btn-secondary" onclick="restartGame()">Play Again</button>
+        </div>
+    </div>
+
+    <!-- Quest Modal -->
+    <div class="modal" id="questModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <div class="quest-icon" id="modalIcon"></div>
+            </div>
+            <div class="quest-content" id="modalContent"></div>
+            <div class="question-section" id="questionSection" style="display: none;">
+                <div class="question" id="questionText"></div>
+                <div class="answers" id="answersContainer"></div>
+                <div style="text-align: center; margin-top: 2rem; gap: 1rem; display: flex; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="closeModal()">Return to Dungeon</button>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 2rem;" id="continueSection">
+                <button class="btn" onclick="startQuest()">Begin Quest</button>
+                <button class="btn btn-secondary" onclick="closeModal()">Return to Dungeon</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Confetti Container -->
+    <div class="confetti" id="confetti"></div>
+
+    <script>
+        // Game State
+        let gameState = {
+            playerName: '',
+            score: 0,
+            totalQuests: 15,
+            completedQuests: [],
+            unlockedQuests: [0], // Start with first quest unlocked
+            lifelines: {
+                eliminate: true,
+                hint: true,
+                skip: true
+            },
+            achievements: {
+                ach1: false, // Tax Slayer - Complete 5 quests
+                ach2: false, // W-4 Master - Complete W-4 quest
+                ach3: false  // FICA Champion - Complete FICA quest
+            }
+        };
+
+        let currentQuest = null;
+        const pointsPerQuest = Math.round(100 / 15); // ~6.67 points per quest
+
+        // Quest Data
+        const quests = [
+            {
+                id: 0,
+                title: "The Foundation Chamber",
+                icon: "🏛️",
+                description: "Discover why taxes exist and their purpose in society.",
+                analogy: "Think of taxes like membership fees for living in a country. Just like a gym membership gives you access to equipment and classes, taxes give you access to roads, schools, police, and other services.",
+                content: "Taxes are mandatory payments to the government that fund essential services like infrastructure, education, healthcare, military, and social programs. Without taxes, we wouldn't have roads to drive on, schools to learn in, or police to protect us.",
+                question: "What is the primary purpose of taxes?",
+                answers: [
+                    { text: "To punish people for earning money", correct: false },
+                    { text: "To fund government services and infrastructure", correct: true },
+                    { text: "To make rich people poor", correct: false },
+                    { text: "To create paperwork for accountants", correct: false }
+                ],
+                hint: "Think about what you use every day that the government provides - roads, schools, police protection..."
+            },
+            {
+                id: 1,
+                title: "Tax Layers Tower",
+                icon: "🗼",
+                description: "Navigate the three levels of taxation in America.",
+                analogy: "Taxes work like a three-layer cake: Federal (biggest layer) takes the most, State (medium layer) varies by location, and Local (small layer) covers your immediate community needs.",
+                content: "The US has three main tax levels: Federal taxes fund national programs like Social Security and military. State taxes vary widely - some states have no income tax! Local taxes fund schools, police, and fire departments in your specific area.",
+                question: "Which level of government typically takes the largest portion of your income tax?",
+                answers: [
+                    { text: "Local government", correct: false },
+                    { text: "State government", correct: false },
+                    { text: "Federal government", correct: true },
+                    { text: "They all take equal amounts", correct: false }
+                ],
+                hint: "Think about which government funds the biggest programs like Social Security and the military..."
+            },
+            {
+                id: 2,
+                title: "The SSN Amulet Quest",
+                icon: "🔮",
+                description: "Unlock the power of your Social Security Number.",
+                analogy: "Your SSN is like a magical ID card that follows you everywhere. It's your unique identifier in the tax world - without it, you can't work legally or file taxes.",
+                content: "Your Social Security Number is your unique tax identifier. It tracks your earnings history, determines your future Social Security benefits, and is required for employment. Guard it carefully - it's like the key to your financial identity!",
+                question: "What happens if you work without providing a valid Social Security Number?",
+                answers: [
+                    { text: "Nothing, it's optional", correct: false },
+                    { text: "You'll be subject to backup withholding at 24%", correct: true },
+                    { text: "You get a discount on taxes", correct: false },
+                    { text: "Only self-employed people need SSNs", correct: false }
+                ],
+                hint: "The IRS wants to make sure they can track income, so they penalize those who don't provide proper identification..."
+            },
+            {
+                id: 3,
+                title: "W-4 Sword Forge",
+                icon: "⚔️",
+                description: "Master the weapon that controls your tax withholding.",
+                analogy: "The W-4 form is like a thermostat for your taxes. Set it too high and you'll get a big refund (but less money each paycheck). Set it too low and you'll owe money at tax time.",
+                content: "Form W-4 tells your employer how much federal income tax to withhold from your paychecks. The more allowances/dependents you claim, the less tax is withheld. It's updated whenever you have major life changes like marriage, divorce, or having children.",
+                question: "When should you update your W-4 form?",
+                answers: [
+                    { text: "Only when you start a new job", correct: false },
+                    { text: "Every year on January 1st", correct: false },
+                    { text: "When you have major life changes (marriage, children, etc.)", correct: true },
+                    { text: "Only if your employer asks you to", correct: false }
+                ],
+                hint: "Think about events that would change your tax situation - getting married, having kids, buying a house..."
+            },
+            {
+                id: 4,
+                title: "State Tax Labyrinth",
+                icon: "🌎",
+                description: "Navigate the maze of different state tax rules.",
+                analogy: "State taxes are like different restaurant chains - each state has its own 'menu' and prices. Some states are like all-you-can-eat buffets (high taxes, many services), others are like dollar menus (low/no taxes, fewer services).",
+                content: "State taxes vary dramatically across the US. Seven states have no income tax at all (like Texas and Florida), while others like California have rates over 10%. Some states tax retirement income, others don't. Remote work has made this even more complex!",
+                question: "Which states have NO state income tax?",
+                answers: [
+                    { text: "California, New York, Illinois", correct: false },
+                    { text: "Texas, Florida, Nevada, and 4 others", correct: true },
+                    { text: "Only Alaska and Hawaii", correct: false },
+                    { text: "All states have income tax", correct: false }
+                ],
+                hint: "Think of states known for attracting retirees and businesses with tax advantages..."
+            },
+            {
+                id: 5,
+                title: "Benefits Treasure Vault",
+                icon: "💎",
+                description: "Discover the hidden gems of employee benefits.",
+                analogy: "Employee benefits are like a treasure chest with different compartments. Some treasures (401k, HSA) actually reduce your current taxes while growing your wealth - it's like getting paid to save money!",
+                content: "Pre-tax benefits reduce your taxable income now. 401(k) contributions can reduce current taxes while building retirement wealth. HSAs offer triple tax advantages - deductible contributions, tax-free growth, and tax-free withdrawals for medical expenses. It's like legal tax magic!",
+                question: "Which benefit offers 'triple tax advantages'?",
+                answers: [
+                    { text: "401(k) retirement plan", correct: false },
+                    { text: "Health Savings Account (HSA)", correct: true },
+                    { text: "Flexible Spending Account (FSA)", correct: false },
+                    { text: "Life insurance", correct: false }
+                ],
+                hint: "This benefit helps with medical expenses and has tax advantages for contributions, growth, AND withdrawals..."
+            },
+            {
+                id: 6,
+                title: "The FICA Troll Bridge",
+                icon: "🧌",
+                description: "Face the troll that takes 7.65% of every paycheck.",
+                analogy: "FICA is like a troll guarding a bridge - you must pay 7.65% to cross into employment. But this troll is actually helpful! He's saving money for your future retirement and healthcare.",
+                content: "FICA stands for Federal Insurance Contributions Act. It's 7.65% of your pay: 6.2% for Social Security (retirement, disability, survivor benefits) and 1.45% for Medicare (healthcare after age 65). Your employer matches this, so 15.3% total goes toward your future benefits!",
+                question: "What does FICA stand for and what's the total employee rate?",
+                answers: [
+                    { text: "Federal Income Collection Act - 10%", correct: false },
+                    { text: "Federal Insurance Contributions Act - 7.65%", correct: true },
+                    { text: "Financial Investment Credit Account - 5%", correct: false },
+                    { text: "Federal Individual Contribution Assessment - 12%", correct: false }
+                ],
+                hint: "Remember, this is insurance for your future - Social Security (6.2%) plus Medicare (1.45%)..."
+            },
+            {
+                id: 7,
+                title: "The IRS Dragon's Lair",
+                icon: "🐉",
+                description: "Learn to tame the dragon with proper filing and deadlines.",
+                analogy: "The IRS is like a dragon that sleeps peacefully if you follow the rules and feed it on time (April 15th). But wake it up with late filings or errors, and you'll face penalties and interest charges!",
+                content: "The IRS has strict deadlines: April 15th for individual tax returns, quarterly estimated payments for self-employed, and various business filing dates. Late filing penalties are 5% per month, late payment penalties are 0.5% per month. Extensions give you more time to file, but not to pay!",
+                question: "What's the penalty for filing your tax return late?",
+                answers: [
+                    { text: "No penalty if you file within 6 months", correct: false },
+                    { text: "5% of unpaid taxes per month (up to 25%)", correct: true },
+                    { text: "A flat $100 fee", correct: false },
+                    { text: "Double your tax bill", correct: false }
+                ],
+                hint: "The IRS charges a percentage of what you owe, and it adds up quickly each month you're late..."
+            },
+            {
+                id: 8,
+                title: "Audit Trap Room",
+                icon: "🕳️",
+                description: "Escape the audit trap with proper record keeping.",
+                analogy: "Keeping tax records is like having a detailed diary of your financial life. If the IRS ever questions you, your records are your alibi - they prove where every dollar came from and went.",
+                content: "The IRS recommends keeping tax records for at least 3 years, but 7 years is safer for major items. Keep receipts, bank statements, investment records, and employment documents. Digital storage is fine, but make backups! Good records can save you thousands in an audit.",
+                question: "How long should you keep tax records?",
+                answers: [
+                    { text: "1 year after filing", correct: false },
+                    { text: "3 years minimum, 7 years recommended", correct: true },
+                    { text: "Forever", correct: false },
+                    { text: "Only until you get your refund", correct: false }
+                ],
+                hint: "The IRS has 3 years to audit most returns, but some situations give them longer..."
+            },
+            {
+                id: 9,
+                title: "Deduction Dungeon",
+                icon: "📊",
+                description: "Choose your path: Standard or Itemized deductions.",
+                analogy: "Deductions are like choosing between a preset meal deal (standard deduction) or ordering à la carte (itemized). Most people take the meal deal because it's easier and often better value!",
+                content: "The standard deduction for 2025 is $15,000 for single filers, $30,000 for married couples. You itemize only if your deductions (mortgage interest, state taxes, charity, medical expenses) exceed the standard amount. About 90% of taxpayers now take the standard deduction.",
+                question: "When should you itemize deductions instead of taking the standard deduction?",
+                answers: [
+                    { text: "Always - itemizing is always better", correct: false },
+                    { text: "When your itemized deductions exceed the standard deduction", correct: true },
+                    { text: "Only if you're self-employed", correct: false },
+                    { text: "Never - standard is always better", correct: false }
+                ],
+                hint: "You want whichever option gives you the bigger deduction to reduce your taxable income..."
+            },
+            {
+                id: 10,
+                title: "401k Treasure Chest",
+                icon: "📦",
+                description: "Unlock the secrets of retirement savings.",
+                analogy: "A 401(k) is like a magical treasure chest that makes your money invisible to taxes while it grows. Plus, many employers throw in free gold coins (matching contributions) if you contribute!",
+                content: "401(k) plans let you save up to $23,500 per year (2025 limit) pre-tax, reducing current taxable income. Many employers match contributions - that's free money! Your investments grow tax-deferred until retirement. It's one of the best wealth-building tools available.",
+                question: "What's the main advantage of contributing to a traditional 401(k)?",
+                answers: [
+                    { text: "You can withdraw money anytime without penalty", correct: false },
+                    { text: "Contributions reduce your current taxable income", correct: true },
+                    { text: "All withdrawals in retirement are tax-free", correct: false },
+                    { text: "There are no contribution limits", correct: false }
+                ],
+                hint: "Think about what happens to your paycheck when you contribute to a 401(k)..."
+            },
+            {
+                id: 11,
+                title: "Remote Work Portal",
+                icon: "🌐",
+                description: "Navigate the complex world of multi-state taxation.",
+                analogy: "Working remotely across state lines is like being a traveling merchant who has to pay tolls in different kingdoms. Each state wants its share, but some have agreements to prevent double-taxation.",
+                content: "Remote work creates complex tax situations. You might owe taxes where you live, where your employer is located, or both. Some states have reciprocal agreements to prevent double taxation. Keep detailed records of where you work each day - it affects your tax obligations!",
+                question: "If you live in Texas (no income tax) but work remotely for a New York company, where do you owe income tax?",
+                answers: [
+                    { text: "Only in New York", correct: false },
+                    { text: "Only in Texas", correct: false },
+                    { text: "It depends on NY's rules and how many days you work there", correct: true },
+                    { text: "Both states, with no relief", correct: false }
+                ],
+                hint: "This is complex and depends on specific state rules about remote work and sourcing of income..."
+            },
+            {
+                id: 12,
+                title: "The 2026 Tax Prophecy",
+                icon: "🔮",
+                description: "Prepare for the coming changes when the Tax Cuts and Jobs Act expires.",
+                analogy: "The Tax Cuts and Jobs Act is like a temporary discount at your favorite store - it expires at the end of 2025. Unless Congress extends it, prices (tax rates) go back to the old, higher levels in 2026.",
+                content: "Many TCJA provisions expire December 31, 2025: individual tax rates will increase, standard deduction will roughly halve, child tax credit decreases, and personal exemptions return. The estate tax exemption also drops significantly. Plan accordingly!",
+                question: "What happens to individual tax rates when the TCJA expires in 2026?",
+                answers: [
+                    { text: "They stay the same", correct: false },
+                    { text: "They generally increase to pre-2018 levels", correct: true },
+                    { text: "They decrease further", correct: false },
+                    { text: "Only corporate rates change", correct: false }
+                ],
+                hint: "When temporary tax cuts expire, rates typically return to their previous, higher levels..."
+            },
+            {
+                id: 13,
+                title: "Self-Employment Dragon",
+                icon: "🐲",
+                description: "Face the mighty 15.3% self-employment tax beast.",
+                analogy: "Self-employment tax is like paying both the hero's fee AND the sidekick's fee when you're a solo adventurer. Employees split FICA with their employer (7.65% each), but self-employed pay the full 15.3% themselves.",
+                content: "Self-employed individuals pay both the employee and employer portions of FICA taxes - that's 15.3% on net earnings up to $176,100 (2025). The good news: you can deduct half of your SE tax, and you may qualify for the 20% QBI deduction on business income!",
+                question: "What is the self-employment tax rate?",
+                answers: [
+                    { text: "7.65% - same as employees", correct: false },
+                    { text: "15.3% - both employee and employer portions", correct: true },
+                    { text: "10% - a flat rate for all self-employed", correct: false },
+                    { text: "It varies by industry", correct: false }
+                ],
+                hint: "Self-employed people have to pay what both the employee AND employer normally split..."
+            },
+            {
+                id: 14,
+                title: "Final Boss: Tax Champion",
+                icon: "👑",
+                description: "Master the ultimate concept: Effective Tax Rates.",
+                analogy: "Your effective tax rate is like your actual batting average in baseball. It doesn't matter what your highest tax bracket is - what matters is your overall percentage of income that goes to taxes.",
+                content: "Your effective tax rate is total taxes paid divided by total income. It's usually much lower than your marginal (highest) tax rate due to progressive brackets, deductions, and credits. Understanding this helps with tax planning and financial decisions.",
+                question: "If you earn $100,000 and pay $18,000 in total taxes, what's your effective tax rate?",
+                answers: [
+                    { text: "22% (your marginal tax bracket)", correct: false },
+                    { text: "18% ($18,000 ÷ $100,000)", correct: true },
+                    { text: "25% (standard calculation)", correct: false },
+                    { text: "It depends on your state", correct: false }
+                ],
+                hint: "Effective rate is simple division: total taxes paid divided by total income..."
+            }
+        ];
+
+        // Initialize the game
+        function initGame() {
+            createParticles();
+            
+            // Add event listeners
+            const nameInput = document.getElementById('playerName');
+            nameInput.addEventListener('input', function() {
+                const startBtn = document.getElementById('startAdventure');
+                if (this.value.trim().length > 0) {
+                    startBtn.disabled = false;
+                } else {
+                    startBtn.disabled = true;
+                }
+            });
+
+            // Add salary input listener for pizza calculator
+            document.getElementById('salaryInput').addEventListener('input', updatePizzaCalculator);
+            
+            // Add lifeline listeners
+            document.getElementById('eliminate').addEventListener('click', useLifeline('eliminate'));
+            document.getElementById('hint').addEventListener('click', useLifeline('hint'));
+            document.getElementById('skip').addEventListener('click', useLifeline('skip'));
+        }
+
+        // Start the game
+        function startGame() {
+            const playerName = document.getElementById('playerName').value.trim();
+            if (!playerName) return;
+
+            gameState.playerName = playerName;
+            
+            // Switch to game page
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('gamePage').style.display = 'block';
+            
+            // Update UI
+            document.getElementById('playerNameDisplay').textContent = playerName;
+            document.getElementById('welcomeMessage').textContent = `Welcome, ${playerName}!`;
+            
+            updateScoreDisplay();
+            updateAchievements();
+            renderQuests();
+            updatePizzaCalculator();
+        }
+
+        // Go back to home page
+        function goHome() {
+            document.getElementById('gamePage').style.display = 'none';
+            document.getElementById('resultsPage').style.display = 'none';
+            document.getElementById('welcomePage').style.display = 'flex';
+            
+            // Reset game state
+            gameState = {
+                playerName: '',
+                score: 0,
+                totalQuests: 15,
+                completedQuests: [],
+                unlockedQuests: [0],
+                lifelines: {
+                    eliminate: true,
+                    hint: true,
+                    skip: true
+                },
+                achievements: {
+                    ach1: false,
+                    ach2: false,
+                    ach3: false
+                }
+            };
+            
+            // Clear name input
+            document.getElementById('playerName').value = '';
+            document.getElementById('startAdventure').disabled = true;
+            
+            // Reset lifelines
+            document.getElementById('eliminate').classList.remove('used');
+            document.getElementById('hint').classList.remove('used');
+            document.getElementById('skip').classList.remove('used');
+            
+            // Reset achievements
+            document.getElementById('ach1').classList.remove('unlocked');
+            document.getElementById('ach2').classList.remove('unlocked');
+            document.getElementById('ach3').classList.remove('unlocked');
+        }
+
+        // Restart game with same player
+        function restartGame() {
+            const playerName = gameState.playerName;
+            
+            // Reset game state but keep player name
+            gameState = {
+                playerName: playerName,
+                score: 0,
+                totalQuests: 15,
+                completedQuests: [],
+                unlockedQuests: [0],
+                lifelines: {
+                    eliminate: true,
+                    hint: true,
+                    skip: true
+                },
+                achievements: {
+                    ach1: false,
+                    ach2: false,
+                    ach3: false
+                }
+            };
+            
+            // Switch to game page
+            document.getElementById('resultsPage').style.display = 'none';
+            document.getElementById('gamePage').style.display = 'block';
+            
+            // Reset lifelines
+            document.getElementById('eliminate').classList.remove('used');
+            document.getElementById('hint').classList.remove('used');
+            document.getElementById('skip').classList.remove('used');
+            
+            // Reset achievements
+            document.getElementById('ach1').classList.remove('unlocked');
+            document.getElementById('ach2').classList.remove('unlocked');
+            document.getElementById('ach3').classList.remove('unlocked');
+            
+            // Update UI
+            updateScoreDisplay();
+            updateAchievements();
+            renderQuests();
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Update score display
+        function updateScoreDisplay() {
+            document.getElementById('scoreDisplay').textContent = gameState.score;
+            document.getElementById('questProgress').textContent = gameState.completedQuests.length;
+        }
+
+        // Add points to score
+        function addPoints() {
+            gameState.score += pointsPerQuest;
+            if (gameState.score > 100) gameState.score = 100; // Cap at 100
+            updateScoreDisplay();
+        }
+
+        // Update achievements
+        function updateAchievements() {
+            // Tax Slayer - Complete 5 quests
+            if (gameState.completedQuests.length >= 5 && !gameState.achievements.ach1) {
+                gameState.achievements.ach1 = true;
+                document.getElementById('ach1').classList.add('unlocked');
+                showNotification('🏆 Achievement Unlocked: Tax Slayer!');
+            }
+            
+            // W-4 Master - Complete W-4 quest
+            if (gameState.completedQuests.includes(3) && !gameState.achievements.ach2) {
+                gameState.achievements.ach2 = true;
+                document.getElementById('ach2').classList.add('unlocked');
+                showNotification('🏆 Achievement Unlocked: W-4 Master!');
+            }
+            
+            // FICA Champion - Complete FICA quest
+            if (gameState.completedQuests.includes(6) && !gameState.achievements.ach3) {
+                gameState.achievements.ach3 = true;
+                document.getElementById('ach3').classList.add('unlocked');
+                showNotification('🏆 Achievement Unlocked: FICA Champion!');
+            }
+        }
+
+        // Render quests
+        function renderQuests() {
+            const questMap = document.getElementById('questMap');
+            questMap.innerHTML = '';
+            
+            quests.forEach(quest => {
+                const questElement = document.createElement('div');
+                questElement.className = 'quest-scroll';
+                
+                // Determine quest status
+                if (gameState.completedQuests.includes(quest.id)) {
+                    questElement.classList.add('completed');
+                } else if (!gameState.unlockedQuests.includes(quest.id)) {
+                    questElement.classList.add('locked');
+                }
+                
+                questElement.innerHTML = `
+                    <div class="quest-header">
+                        <div class="quest-icon">${quest.icon}</div>
+                        <div class="quest-title">${quest.title}</div>
+                    </div>
+                    <div class="quest-description">${quest.description}</div>
+                    <div class="quest-status">
+                        <div class="points-reward">${pointsPerQuest} Points</div>
+                        ${gameState.completedQuests.includes(quest.id) ? 
+                            '<span style="color: #00ff00;">✓ Completed</span>' : 
+                            gameState.unlockedQuests.includes(quest.id) ? 
+                                '<span style="color: #ffd700;">Available</span>' : 
+                                '<span style="color: #888;">🔒 Locked</span>'
+                        }
+                    </div>
+                `;
+                
+                if (gameState.unlockedQuests.includes(quest.id) && !gameState.completedQuests.includes(quest.id)) {
+                    questElement.addEventListener('click', () => openQuest(quest.id));
+                }
+                
+                questMap.appendChild(questElement);
+            });
+        }
+
+        // Open quest modal
+        function openQuest(questId) {
+            currentQuest = quests.find(q => q.id === questId);
+            if (!currentQuest) return;
+            
+            document.getElementById('modalTitle').textContent = currentQuest.title;
+            document.getElementById('modalIcon').textContent = currentQuest.icon;
+            
+            document.getElementById('modalContent').innerHTML = `
+                <div class="analogy-box">
+                    <div class="analogy-title">🎯 Quest Analogy</div>
+                    <div>${currentQuest.analogy}</div>
+                </div>
+                <div style="margin: 1.5rem 0;">
+                    <strong>Your Mission:</strong><br>
+                    ${currentQuest.content}
+                </div>
+                <div style="text-align: center; background: rgba(255, 215, 0, 0.1); padding: 1rem; border-radius: 10px; border: 1px solid #ffd700;">
+                    <strong>Reward:</strong> ${pointsPerQuest} Points
+                </div>
+            `;
+            
+            document.getElementById('questionSection').style.display = 'none';
+            document.getElementById('continueSection').style.display = 'block';
+            document.getElementById('questModal').style.display = 'block';
+        }
+
+        // Start quest (show question)
+        function startQuest() {
+            if (!currentQuest) return;
+            
+            document.getElementById('questionText').textContent = currentQuest.question;
+            
+            const answersContainer = document.getElementById('answersContainer');
+            answersContainer.innerHTML = '';
+            
+            currentQuest.answers.forEach((answer, index) => {
+                const answerElement = document.createElement('div');
+                answerElement.className = 'answer';
+                answerElement.textContent = answer.text;
+                answerElement.addEventListener('click', () => selectAnswer(index));
+                answersContainer.appendChild(answerElement);
+            });
+            
+            document.getElementById('continueSection').style.display = 'none';
+            document.getElementById('questionSection').style.display = 'block';
+        }
+
+        // Select answer
+        function selectAnswer(answerIndex) {
+            const answers = document.querySelectorAll('.answer');
+            const selectedAnswer = currentQuest.answers[answerIndex];
+            
+            // Disable all answers
+            answers.forEach(answer => answer.style.pointerEvents = 'none');
+            
+            if (selectedAnswer.correct) {
+                // Correct answer
+                answers[answerIndex].classList.add('correct');
+                addPoints();
+                completeQuest(currentQuest.id);
+                showConfetti();
+                showNotification(`✅ Correct! +${pointsPerQuest} Points`);
+                
+                setTimeout(() => {
+                    closeModal();
+                }, 2000);
+            } else {
+                // Wrong answer - no points added
+                answers[answerIndex].classList.add('wrong');
+                showNotification(`❌ Wrong answer! No points awarded. Hint: ${currentQuest.hint}`);
+                
+                // Show correct answer after a delay
+                setTimeout(() => {
+                    currentQuest.answers.forEach((answer, index) => {
+                        if (answer.correct) {
+                            answers[index].classList.add('correct');
+                        }
+                    });
+                    
+                    // Still complete the quest but without points
+                    completeQuest(currentQuest.id);
+                    
+                    setTimeout(() => {
+                        closeModal();
+                    }, 3000);
+                }, 1500);
+            }
+        }
+
+        // Complete quest
+        function completeQuest(questId) {
+            if (!gameState.completedQuests.includes(questId)) {
+                gameState.completedQuests.push(questId);
+                
+                // Unlock next quest
+                if (questId + 1 < quests.length && !gameState.unlockedQuests.includes(questId + 1)) {
+                    gameState.unlockedQuests.push(questId + 1);
+                }
+                
+                updateAchievements();
+                renderQuests();
+                
+                // Check if all quests completed
+                if (gameState.completedQuests.length === gameState.totalQuests) {
+                    setTimeout(() => {
+                        showResults();
+                    }, 3000);
+                }
+            }
+        }
+
+        // Show final results
+        function showResults() {
+            document.getElementById('gamePage').style.display = 'none';
+            document.getElementById('resultsPage').style.display = 'flex';
+            
+            const finalScore = gameState.score;
+            const playerName = gameState.playerName;
+            
+            document.getElementById('finalScore').textContent = `${finalScore}/100`;
+            
+            let message = '';
+            if (finalScore >= 90) {
+                message = `Outstanding, ${playerName}! You're a true Tax Champion! 🏆`;
+            } else if (finalScore >= 80) {
+                message = `Excellent work, ${playerName}! You're well on your way to tax mastery! ⭐`;
+            } else if (finalScore >= 70) {
+                message = `Good job, ${playerName}! You have a solid understanding of payroll taxes! 👍`;
+            } else if (finalScore >= 60) {
+                message = `Nice effort, ${playerName}! Keep learning to become a tax expert! 📚`;
+            } else {
+                message = `Keep practicing, ${playerName}! Every expert was once a beginner! 💪`;
+            }
+            
+            document.getElementById('scoreMessage').textContent = message;
+            
+            showConfetti();
+        }
+
+        // Use lifeline
+        function useLifeline(type) {
+            return function() {
+                if (!gameState.lifelines[type] || !currentQuest) return;
+                
+                gameState.lifelines[type] = false;
+                document.getElementById(type).classList.add('used');
+                
+                if (type === 'eliminate') {
+                    // Eliminate 2 wrong answers
+                    const answers = document.querySelectorAll('.answer');
+                    const wrongAnswers = [];
+                    currentQuest.answers.forEach((answer, index) => {
+                        if (!answer.correct) wrongAnswers.push(index);
+                    });
+                    
+                    // Hide 2 random wrong answers
+                    for (let i = 0; i < 2 && i < wrongAnswers.length; i++) {
+                        const randomIndex = wrongAnswers.splice(Math.floor(Math.random() * wrongAnswers.length), 1)[0];
+                        answers[randomIndex].style.display = 'none';
+                    }
+                    showNotification('💨 Eliminated 2 wrong answers!');
+                    
+                } else if (type === 'hint') {
+                    showNotification(`💡 Hint: ${currentQuest.hint}`);
+                    
+                } else if (type === 'skip') {
+                    completeQuest(currentQuest.id);
+                    addPoints(); // Award points for skipping
+                    showNotification(`⏭️ Quest skipped! +${pointsPerQuest} Points`);
+                    closeModal();
+                }
+            };
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('questModal').style.display = 'none';
+            currentQuest = null;
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Show confetti
+        function showConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            
+            for (let i = 0; i < 50; i++) {
+                const confettiPiece = document.createElement('div');
+                confettiPiece.className = 'confetti-piece';
+                confettiPiece.style.left = Math.random() * 100 + '%';
+                confettiPiece.style.backgroundColor = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4'][Math.floor(Math.random() * 5)];
+                confettiPiece.style.animationDelay = Math.random() * 0.5 + 's';
+                confettiContainer.appendChild(confettiPiece);
+                
+                setTimeout(() => {
+                    confettiPiece.remove();
+                }, 3000);
+            }
+        }
+
+        // Update pizza calculator
+        function updatePizzaCalculator() {
+            const salary = parseFloat(document.getElementById('salaryInput').value) || 60000;
+            
+            // Tax calculations (simplified)
+            const federalRate = 0.12; // Simplified average
+            const stateRate = 0.05; // Average state rate
+            const ficaRate = 0.0765;
+            const otherRate = 0.02; // Local, insurance, etc.
+            
+            const federal = salary * federalRate;
+            const state = salary * stateRate;
+            const fica = salary * ficaRate;
+            const other = salary * otherRate;
+            const takeHome = salary - federal - state - fica - other;
+            
+            // Update pizza chart
+            const total = federal + state + fica + other + takeHome;
+            const federalPercent = (federal / total) * 360;
+            const statePercent = (state / total) * 360;
+            const ficaPercent = (fica / total) * 360;
+            const otherPercent = (other / total) * 360;
+            
+            document.getElementById('pizzaChart').style.background = `conic-gradient(
+                #ff6b6b 0deg ${federalPercent}deg,
+                #4ecdc4 ${federalPercent}deg ${federalPercent + statePercent}deg,
+                #45b7d1 ${federalPercent + statePercent}deg ${federalPercent + statePercent + ficaPercent}deg,
+                #96ceb4 ${federalPercent + statePercent + ficaPercent}deg ${federalPercent + statePercent + ficaPercent + otherPercent}deg,
+                #ffeaa7 ${federalPercent + statePercent + ficaPercent + otherPercent}deg 360deg
+            )`;
+            
+            // Update legend
+            document.getElementById('pizzaLegend').innerHTML = `
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ff6b6b;"></div>
+                    <div>Federal: ${federal.toLocaleString()}</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #4ecdc4;"></div>
+                    <div>State: ${state.toLocaleString()}</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #45b7d1;"></div>
+                    <div>FICA: ${fica.toLocaleString()}</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #96ceb4;"></div>
+                    <div>Other: ${other.toLocaleString()}</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ffeaa7;"></div>
+                    <div>Take Home: ${takeHome.toLocaleString()}</div>
+                </div>
+            `;
+        }
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', initGame);
+
+        // Close modal when clicking outside
+        document.getElementById('questModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Handle enter key in name input
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const nameInput = document.getElementById('playerName');
+                if (nameInput === document.activeElement && nameInput.value.trim()) {
+                    startGame();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
