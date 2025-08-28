@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeon Tax Quest - Master the Art of Payroll</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 25%, #1a1a1a 50%, #0d0d0d 75%, #1a1a1a 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .dungeon-bg {
+            background-image: 
+                url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'),
+                radial-gradient(circle at 20% 80%, rgba(255, 165, 0, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 69, 0, 0.3) 0%, transparent 50%),
+                linear-gradient(45deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+            background-size: cover, 100% 100%, 100% 100%, cover;
+            background-position: center, center, center, center;
+            background-attachment: fixed;
+            animation: torchFlicker 3s ease-in-out infinite alternate;
+        }
+        
+        .quest-bg {
+            background-image: 
+                url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80'),
+                radial-gradient(circle at 30% 70%, rgba(255, 165, 0, 0.3) 0%, transparent 40%),
+                radial-gradient(circle at 70% 30%, rgba(255, 69, 0, 0.2) 0%, transparent 40%),
+                linear-gradient(45deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+            background-size: cover, 100% 100%, 100% 100%, cover;
+            background-position: center, center, center, center;
+            background-attachment: fixed;
+        }
+        
+        @keyframes torchFlicker {
+            0% { 
+                filter: brightness(0.9) contrast(1.1) hue-rotate(0deg);
+                background-size: cover, 100% 100%, 100% 100%, cover;
+            }
+            25% { 
+                filter: brightness(1.2) contrast(1.3) hue-rotate(5deg);
+                background-size: cover, 108% 108%, 108% 108%, cover;
+            }
+            50% { 
+                filter: brightness(1.1) contrast(1.2) hue-rotate(-3deg);
+                background-size: cover, 105% 105%, 105% 105%, cover;
+            }
+            75% { 
+                filter: brightness(1.3) contrast(1.4) hue-rotate(8deg);
+                background-size: cover, 110% 110%, 110% 110%, cover;
+            }
+            100% { 
+                filter: brightness(0.95) contrast(1.15) hue-rotate(0deg);
+                background-size: cover, 100% 100%, 100% 100%, cover;
+            }
+        }
+        
+        .content-overlay {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(3px);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .torch-glow {
+            box-shadow: 0 0 30px rgba(255, 165, 0, 0.6), 0 0 60px rgba(255, 69, 0, 0.4);
+            animation: torchPulse 2s infinite alternate;
+        }
+        
+        @keyframes torchPulse {
+            0% { 
+                opacity: 1; 
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 0 30px rgba(255, 165, 0, 0.6), 0 0 60px rgba(255, 69, 0, 0.4);
+            }
+            50% { 
+                opacity: 0.8; 
+                transform: scale(1.1) rotate(2deg);
+                box-shadow: 0 0 40px rgba(255, 165, 0, 0.8), 0 0 80px rgba(255, 69, 0, 0.6);
+            }
+            100% { 
+                opacity: 1; 
+                transform: scale(1.05) rotate(-1deg);
+                box-shadow: 0 0 35px rgba(255, 165, 0, 0.7), 0 0 70px rgba(255, 69, 0, 0.5);
+            }
+        }
+        
+        .quest-scroll {
+            background: linear-gradient(145deg, #f4e4bc, #e6d3a3);
+            border: 3px solid #8b4513;
+            box-shadow: 
+                inset 0 2px 4px rgba(139, 69, 19, 0.3),
+                0 8px 16px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(255, 165, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            animation: scrollGlow 4s ease-in-out infinite alternate;
+        }
+        
+        @keyframes scrollGlow {
+            0% { box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 165, 0, 0.2); }
+            100% { box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 165, 0, 0.4); }
+        }
+        
+        .quest-scroll::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(139, 69, 19, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 90%, rgba(139, 69, 19, 0.1) 0%, transparent 20%);
+            pointer-events: none;
+        }
+        
+        .achievement-popup {
+            animation: achievementSlide 3s ease-in-out;
+        }
+        
+        @keyframes achievementSlide {
+            0% { transform: translateX(100%) scale(0.5) rotate(10deg); opacity: 0; }
+            20% { transform: translateX(0) scale(1.1) rotate(-2deg); opacity: 1; }
+            25% { transform: translateX(0) scale(0.95) rotate(1deg); opacity: 1; }
+            80% { transform: translateX(0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translateX(100%) scale(0.8) rotate(-5deg); opacity: 0; }
+        }
+        
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 165, 0, 0.6);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+        
+        .magic-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #FFD700, #FF6B35);
+            border-radius: 50%;
+            animation: magicFloat 8s infinite linear;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10px) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes magicFloat {
+            0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 1; transform: scale(1); }
+            50% { transform: scale(1.2); }
+            90% { opacity: 1; transform: scale(0.8); }
+            100% { transform: translateY(-10px) rotate(720deg) scale(0); opacity: 0; }
+        }
+        
+        .quest-path {
+            position: relative;
+        }
+        
+        .quest-step {
+            position: relative;
+            margin: 20px 0;
+            animation: questAppear 0.8s ease-out forwards;
+        }
+        
+        @keyframes questAppear {
+            0% { opacity: 0; transform: translateY(30px) scale(0.9); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        
+        .quest-step::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: -20px;
+            width: 4px;
+            height: 40px;
+            background: linear-gradient(to bottom, #8b4513, #d2691e);
+            transform: translateX(-50%);
+            z-index: 1;
+            animation: pathGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pathGlow {
+            0% { box-shadow: 0 0 5px rgba(210, 105, 30, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(210, 105, 30, 0.8); }
+        }
+        
+        .quest-step:first-child::before {
+            display: none;
+        }
+        
+        .title-glow {
+            text-shadow: 0 0 20px rgba(255, 165, 0, 0.8), 0 0 40px rgba(255, 69, 0, 0.6);
+            font-family: 'Cinzel', serif;
+            animation: titlePulse 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titlePulse {
+            0% { text-shadow: 0 0 20px rgba(255, 165, 0, 0.8), 0 0 40px rgba(255, 69, 0, 0.6); }
+            100% { text-shadow: 0 0 30px rgba(255, 165, 0, 1), 0 0 60px rgba(255, 69, 0, 0.8); }
+        }
+        
+        .btn-dungeon {
+            background: linear-gradient(145deg, #8b4513, #a0522d);
+            border: 2px solid #d2691e;
+            color: #f4e4bc;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 165, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-dungeon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-dungeon:hover::before {
+            left: 100%;
+        }
+        
+        .btn-dungeon:hover {
+            background: linear-gradient(145deg, #a0522d, #cd853f);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 165, 0, 0.5);
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .btn-dungeon:active {
+            transform: translateY(0) scale(0.98);
+            animation: buttonPulse 0.3s ease-out;
+        }
+        
+        @keyframes buttonPulse {
+            0% { transform: scale(0.98); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .score-display {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border: 2px solid #d2691e;
+            color: #f4e4bc;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+            animation: scorePulse 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes scorePulse {
+            0% { box-shadow: 0 0 20px rgba(255, 165, 0, 0.3); }
+            100% { box-shadow: 0 0 30px rgba(255, 165, 0, 0.5); }
+        }
+        
+        .quest-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #8b4513;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1rem;
+            animation: questTitleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes questTitleGlow {
+            0% { text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); }
+            100% { text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3), 0 0 10px rgba(139, 69, 19, 0.5); }
+        }
+        
+        .quest-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #5d4037;
+        }
+        
+        .answer-btn {
+            background: linear-gradient(145deg, #f4e4bc, #e6d3a3);
+            border: 2px solid #8b4513;
+            color: #5d4037;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .answer-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+        
+        .answer-btn:hover::before {
+            left: 100%;
+        }
+        
+        .answer-btn:hover {
+            background: linear-gradient(145deg, #e6d3a3, #d4c190);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-1px) scale(1.02);
+        }
+        
+        .answer-btn:active {
+            animation: answerClick 0.2s ease-out;
+        }
+        
+        @keyframes answerClick {
+            0% { transform: scale(1.02); }
+            50% { transform: scale(0.98); }
+            100% { transform: scale(1); }
+        }
+        
+        .correct-answer {
+            background: linear-gradient(145deg, #4caf50, #45a049) !important;
+            color: white !important;
+            border-color: #2e7d32 !important;
+            animation: correctPulse 0.6s ease-out;
+        }
+        
+        @keyframes correctPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(76, 175, 80, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+        }
+        
+        .wrong-answer {
+            background: linear-gradient(145deg, #f44336, #d32f2f) !important;
+            color: white !important;
+            border-color: #c62828 !important;
+            animation: wrongShake 0.6s ease-out;
+        }
+        
+        @keyframes wrongShake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .screen-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .flash-correct {
+            background: rgba(76, 175, 80, 0.3);
+            animation: flashCorrect 0.5s ease-out;
+        }
+        
+        .flash-wrong {
+            background: rgba(244, 67, 54, 0.3);
+            animation: flashWrong 0.5s ease-out;
+        }
+        
+        @keyframes flashCorrect {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        @keyframes flashWrong {
+            0% { opacity: 0; }
+            25% { opacity: 1; }
+            50% { opacity: 0; }
+            75% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .screen-shake {
+            animation: screenShake 0.5s ease-out;
+        }
+        
+        @keyframes screenShake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+            20%, 40%, 60%, 80% { transform: translateX(3px); }
+        }
+        
+        .celebration-burst {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        .burst-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: burstOut 1s ease-out forwards;
+        }
+        
+        @keyframes burstOut {
+            0% { 
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% { 
+                transform: scale(1) rotate(360deg) translate(var(--dx), var(--dy));
+                opacity: 0;
+            }
+        }
+        
+        .progress-bar-glow {
+            animation: progressGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes progressGlow {
+            0% { box-shadow: 0 0 5px rgba(255, 165, 0, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(255, 165, 0, 0.8); }
+        }
+    </style>
+</head>
+<body class="dungeon-bg">
+    <div class="floating-particles" id="particles"></div>
+    
+    <!-- Screen Flash Overlay -->
+    <div id="screenFlash" class="screen-flash"></div>
+    
+    <!-- Welcome Page -->
+    <div id="welcomePage" class="min-h-screen flex items-center justify-center content-overlay">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="torch-glow bg-gradient-to-b from-yellow-400 to-orange-500 w-20 h-20 rounded-full mx-auto mb-8 flex items-center justify-center">
+                <span class="text-3xl">🔥</span>
+            </div>
+            
+            <h1 class="title-glow text-6xl md:text-8xl font-bold text-yellow-400 mb-6">
+                DUNGEON TAX QUEST
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-yellow-200 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Embark on an epic journey through the mystical realm of payroll taxes! 
+                Master ancient tax wisdom, unlock powerful achievements, and become the ultimate Tax Champion!
+            </p>
+            
+            <div class="bg-black bg-opacity-50 rounded-lg p-8 mb-8 max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold text-yellow-400 mb-4">Enter Your Name, Brave Adventurer</h2>
+                <input 
+                    type="text" 
+                    id="playerName" 
+                    placeholder="Your heroic name..." 
+                    class="w-full px-4 py-3 rounded-lg bg-yellow-100 border-2 border-yellow-600 text-gray-800 text-xl font-semibold text-center focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                >
+            </div>
+            
+            <button 
+                onclick="startQuest()" 
+                class="btn-dungeon px-12 py-4 rounded-lg text-xl font-bold transform hover:scale-105 transition-all duration-300"
+            >
+                🗡️ BEGIN YOUR QUEST 🗡️
+            </button>
+            
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-black bg-opacity-40 rounded-lg p-6 border border-yellow-600">
+                    <div class="text-4xl mb-3">⚔️</div>
+                    <h3 class="text-yellow-400 font-bold text-lg mb-2">15 Epic Quests</h3>
+                    <p class="text-yellow-200">Battle through challenging tax scenarios</p>
+                </div>
+                <div class="bg-black bg-opacity-40 rounded-lg p-6 border border-yellow-600">
+                    <div class="text-4xl mb-3">🏆</div>
+                    <h3 class="text-yellow-400 font-bold text-lg mb-2">Achievements</h3>
+                    <p class="text-yellow-200">Unlock legendary titles and rewards</p>
+                </div>
+                <div class="bg-black bg-opacity-40 rounded-lg p-6 border border-yellow-600">
+                    <div class="text-4xl mb-3">📊</div>
+                    <h3 class="text-yellow-400 font-bold text-lg mb-2">Score System</h3>
+                    <p class="text-yellow-200">Earn points and track your progress</p>
+                </div>
+            </div>
+
+            <!-- Quest History Section -->
+            <div class="mt-12 max-w-4xl mx-auto">
+                <div class="text-center mb-6">
+                    <button onclick="toggleHistory()" id="historyToggle" class="btn-dungeon px-8 py-3 rounded-lg text-lg font-bold">
+                        📜 View Quest History 📜
+                    </button>
+                </div>
+                
+                <div id="historySection" class="hidden bg-black bg-opacity-60 rounded-lg p-6 border-2 border-yellow-600">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="title-glow text-2xl font-bold text-yellow-400">🏛️ Hall of Adventures</h3>
+                        <button onclick="clearHistory()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm font-bold">
+                            Clear History
+                        </button>
+                    </div>
+                    
+                    <div id="historyContent" class="space-y-4">
+                        <div class="text-center text-yellow-200 py-8">
+                            <div class="text-4xl mb-4">🗡️</div>
+                            <p class="text-lg">No adventures recorded yet!</p>
+                            <p class="text-sm">Start your first quest to see your journey here.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quest Game Page -->
+    <div id="questPage" class="hidden min-h-screen quest-bg">
+        <div class="content-overlay min-h-screen">
+            <!-- Header -->
+            <div class="bg-black bg-opacity-80 border-b-2 border-yellow-600 p-3 md:p-4">
+                <div class="max-w-6xl mx-auto">
+                    <div class="flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
+                        <div class="flex items-center space-x-2 md:space-x-4">
+                            <button onclick="confirmGoHome()" class="btn-dungeon px-3 py-1 md:px-4 md:py-2 rounded text-xs md:text-sm">
+                                🏠 Home
+                            </button>
+                            <h1 class="title-glow text-lg md:text-3xl font-bold text-yellow-400">
+                                Dungeon Tax Quest
+                            </h1>
+                        </div>
+                        <div class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+                            <div class="score-display px-3 py-1 md:px-4 md:py-2 rounded-lg text-sm md:text-base">
+                                <span class="text-yellow-400 font-bold">Adventurer:</span>
+                                <span id="questPlayerName" class="text-yellow-200 ml-2">Hero</span>
+                            </div>
+                            <div class="score-display px-3 py-1 md:px-4 md:py-2 rounded-lg text-sm md:text-base">
+                                <span class="text-yellow-400 font-bold">Score:</span>
+                                <span id="currentScore" class="text-yellow-200 ml-2 text-lg md:text-xl font-bold">0/100</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tax Calculator -->
+            <div class="max-w-4xl mx-auto p-4 md:p-6">
+                <div id="calculatorSection" class="bg-black bg-opacity-60 rounded-lg p-4 md:p-6 mb-8 border-2 border-yellow-600">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="title-glow text-xl md:text-2xl font-bold text-yellow-400">🧮 Tax Calculator</h3>
+                        <button onclick="toggleCalculator()" id="calcToggle" class="btn-dungeon px-3 py-1 rounded text-sm">Hide</button>
+                    </div>
+                    <div id="calculatorContent">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                            <div>
+                                <label class="text-yellow-200 font-semibold block mb-2 text-sm md:text-base">Annual Salary ($)</label>
+                                <input type="number" id="salary" placeholder="80000" class="w-full px-3 py-2 rounded bg-yellow-100 text-gray-800 font-semibold text-sm md:text-base">
+                            </div>
+                            <div>
+                                <label class="text-yellow-200 font-semibold block mb-2 text-sm md:text-base">Filing Status</label>
+                                <select id="filingStatus" class="w-full px-3 py-2 rounded bg-yellow-100 text-gray-800 font-semibold text-sm md:text-base">
+                                    <option value="single">Single</option>
+                                    <option value="married">Married Filing Jointly</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-yellow-200 font-semibold block mb-2 text-sm md:text-base">State</label>
+                                <select id="state" class="w-full px-3 py-2 rounded bg-yellow-100 text-gray-800 font-semibold text-sm md:text-base">
+                                    <option value="no-tax">No State Tax (TX, FL, etc.)</option>
+                                    <option value="low-tax">Low Tax State (~3%)</option>
+                                    <option value="high-tax">High Tax State (~8%)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button onclick="calculateTax()" class="btn-dungeon px-6 py-2 rounded font-bold mb-4 w-full md:w-auto">Calculate My Taxes</button>
+                        <div id="taxResults" class="hidden bg-gradient-to-br from-yellow-100 to-orange-100 rounded-lg p-4 text-gray-800">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-bold text-lg mb-4 text-center">Tax Breakdown</h4>
+                                    <div class="space-y-3">
+                                        <div class="flex justify-between items-center bg-white rounded p-3">
+                                            <span class="font-semibold">Federal Tax:</span>
+                                            <div class="text-right">
+                                                <div class="font-bold text-lg" id="federalTax">$0</div>
+                                                <div class="text-sm text-gray-600" id="federalPercent">0%</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between items-center bg-white rounded p-3">
+                                            <span class="font-semibold">FICA Tax:</span>
+                                            <div class="text-right">
+                                                <div class="font-bold text-lg" id="ficaTax">$0</div>
+                                                <div class="text-sm text-gray-600" id="ficaPercent">0%</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between items-center bg-white rounded p-3">
+                                            <span class="font-semibold">State Tax:</span>
+                                            <div class="text-right">
+                                                <div class="font-bold text-lg" id="stateTax">$0</div>
+                                                <div class="text-sm text-gray-600" id="statePercent">0%</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between items-center bg-green-200 rounded p-3 border-2 border-green-400">
+                                            <span class="font-bold text-green-800">Net Pay:</span>
+                                            <div class="text-right">
+                                                <div class="font-bold text-xl text-green-800" id="netPay">$0</div>
+                                                <div class="text-sm text-green-600" id="netPercent">0%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center items-center">
+                                    <canvas id="taxChart" width="250" height="250" class="max-w-full"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quest Progress -->
+                <div class="text-center mb-6 md:mb-8">
+                    <h2 class="title-glow text-2xl md:text-3xl font-bold text-yellow-400 mb-2">
+                        Quest <span id="questNumber">1</span> of 15
+                    </h2>
+                    <div class="w-full bg-gray-700 rounded-full h-3 mb-4">
+                        <div id="progressBar" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-500 progress-bar-glow" style="width: 6.67%"></div>
+                    </div>
+                </div>
+
+                <!-- Quest Content -->
+                <div class="quest-path">
+                    <div id="questContainer" class="quest-step">
+                        <!-- Quest content will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Popup -->
+    <div id="achievementPopup" class="fixed top-4 right-4 z-50 hidden">
+        <div class="achievement-popup bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-6 py-4 rounded-lg shadow-lg border-2 border-yellow-600">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl">🏆</span>
+                <div>
+                    <div class="font-bold text-lg" id="achievementTitle">Achievement Unlocked!</div>
+                    <div class="text-sm" id="achievementDesc">You've earned a new title!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Modal -->
+    <div id="completionModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <div id="completionCard" class="bg-gradient-to-b from-yellow-100 to-yellow-200 rounded-lg p-8 max-w-2xl mx-4 text-center border-4 border-yellow-600">
+            <div class="mb-6">
+                <div class="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-6xl border-4 border-yellow-600 shadow-lg">
+                    🏆
+                </div>
+            </div>
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">🎉 QUEST COMPLETED! 🎉</h2>
+            <p class="text-xl text-gray-700 mb-4">
+                Congratulations, <span id="finalPlayerName" class="font-bold text-yellow-700">Hero</span>!
+            </p>
+            <p class="text-lg text-gray-600 mb-6">
+                You have successfully mastered all <strong>15 Tax Challenges</strong>!
+            </p>
+            <div class="bg-yellow-300 rounded-lg p-4 mb-6">
+                <div class="text-2xl font-bold text-gray-800">Final Score</div>
+                <div id="finalScore" class="text-4xl font-bold text-yellow-700">0/100</div>
+                <div class="text-sm text-gray-600 mt-2" id="completionDate"></div>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="shareScore()" class="btn-dungeon px-6 py-3 rounded-lg text-lg font-bold">
+                    📸 Share Score
+                </button>
+                <button onclick="goHome()" class="btn-dungeon px-6 py-3 rounded-lg text-lg font-bold">
+                    Return to Castle
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <div class="bg-gradient-to-b from-red-100 to-red-200 rounded-lg p-8 max-w-md mx-4 text-center border-4 border-red-600">
+            <h3 class="text-2xl font-bold text-red-800 mb-4">⚠️ Warning!</h3>
+            <p class="text-lg text-red-700 mb-6">
+                Leaving now will reset your quest progress. You'll need to start from the beginning.
+            </p>
+            <p class="text-md text-red-600 mb-6">Do you want to continue?</p>
+            <div class="flex space-x-4 justify-center">
+                <button onclick="goHome()" class="bg-red-600 text-white px-6 py-2 rounded font-bold hover:bg-red-700">
+                    Yes, Leave Quest
+                </button>
+                <button onclick="closeConfirmModal()" class="bg-gray-600 text-white px-6 py-2 rounded font-bold hover:bg-gray-700">
+                    Stay and Continue
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentQuest = 0;
+        let score = 0;
+        let playerName = '';
+        let achievements = [];
+        let questHistory = JSON.parse(localStorage.getItem('dungeonTaxHistory') || '[]');
+        
+        const quests = [
+            {
+                title: "The Mysterious SSN Scroll",
+                content: "In the depths of the dungeon, you find an ancient scroll about Social Security Numbers. Like a magical ID that follows you everywhere, your SSN is crucial for payroll, tax reporting, and benefits in the U.S. What percentage of your wages goes to Social Security tax?",
+                answers: ["6.2%", "7.65%", "12.4%", "15.3%"],
+                correct: 0,
+                explanation: "Correct! Like splitting a pizza equally, employees pay 6.2% for Social Security tax, and employers match it with another 6.2%."
+            },
+            {
+                title: "The Medicare Potion Mystery",
+                content: "You discover a healing potion labeled 'Medicare Tax.' This magical elixir helps adventurers in their golden years. Just like Social Security, both you and your employer contribute. What's the Medicare tax rate for employees?",
+                answers: ["1.25%", "1.45%", "1.65%", "2.9%"],
+                correct: 1,
+                explanation: "Excellent! Like adding a small healing ingredient to your potion, Medicare tax is 1.45% from your wages, matched by your employer."
+            },
+            {
+                title: "The Federal Income Tax Riddle",
+                content: "A wise tax wizard asks: 'Unlike the flat Social Security and Medicare taxes, federal income tax works differently.' How is federal income tax calculated?",
+                answers: ["Flat rate for everyone", "Progressive tax brackets", "Based on state location", "Fixed dollar amount"],
+                correct: 1,
+                explanation: "Brilliant! Federal income tax uses progressive brackets - like climbing a mountain where each level has different rates based on your income."
+            },
+            {
+                title: "The W-4 Enchantment",
+                content: "You find a magical form called W-4. This powerful document controls how much federal tax is withheld from your paycheck. What happens if you claim more allowances on your W-4?",
+                answers: ["More tax withheld", "Less tax withheld", "No change in withholding", "Higher salary"],
+                correct: 1,
+                explanation: "Perfect! More allowances mean less tax withheld from each paycheck - like having more shields protecting your gold from being taken upfront."
+            },
+            {
+                title: "The State Tax Territory",
+                content: "As you travel through different kingdoms (states), you notice tax laws change. Some states have no income tax at all! How many U.S. states currently have no state income tax?",
+                answers: ["7 states", "8 states", "9 states", "10 states"],
+                correct: 2,
+                explanation: "Correct! Nine states are like tax-free safe havens: Alaska, Florida, Nevada, New Hampshire, South Dakota, Tennessee, Texas, Washington, and Wyoming."
+            },
+            {
+                title: "The FICA Twin Dragons",
+                content: "You encounter twin dragons named Social Security and Medicare - together they're called FICA. What does FICA stand for?",
+                answers: ["Federal Income Collection Act", "Federal Insurance Contributions Act", "Financial Income Control Agency", "Federal Individual Credit Assessment"],
+                correct: 1,
+                explanation: "Excellent! FICA (Federal Insurance Contributions Act) is like a magical contract that funds Social Security and Medicare for all adventurers."
+            },
+            {
+                title: "The Overtime Treasure Chest",
+                content: "You work extra hours and discover overtime pay! For non-exempt employees, overtime is like finding bonus treasure. What's the standard overtime rate?",
+                answers: ["1.25 times regular pay", "1.5 times regular pay", "1.75 times regular pay", "2 times regular pay"],
+                correct: 1,
+                explanation: "Perfect! Overtime is 1.5 times your regular rate - like getting a 50% bonus treasure for working more than 40 hours per week!"
+            },
+            {
+                title: "The 401(k) Treasure Vault",
+                content: "You discover a magical treasure vault called 401(k). Money stored here grows over time and reduces your current taxes. What's the maximum you can contribute to a 401(k) in 2024?",
+                answers: ["$22,000", "$22,500", "$23,000", "$23,500"],
+                correct: 2,
+                explanation: "Excellent! In 2024, you can store up to $23,000 in your 401(k) treasure vault, with additional catch-up contributions if you're 50 or older."
+            },
+            {
+                title: "The Payroll Frequency Puzzle",
+                content: "Different employers pay their adventurers at different intervals. If you're paid bi-weekly, how many paychecks do you receive in a year?",
+                answers: ["24 paychecks", "26 paychecks", "28 paychecks", "52 paychecks"],
+                correct: 1,
+                explanation: "Correct! Bi-weekly means every two weeks, giving you 26 paychecks per year (52 weeks ÷ 2 = 26)."
+            },
+            {
+                title: "The Gross vs Net Gold",
+                content: "Your treasure chest shows two amounts: gross pay and net pay. Gross pay is like finding a chest of 1000 gold coins, but after taxes and deductions, you keep 750. What's the difference called?",
+                answers: ["Bonus pay", "Deductions", "Overtime", "Commission"],
+                correct: 1,
+                explanation: "Perfect! Deductions are everything taken from your gross pay - taxes, insurance, retirement contributions - leaving you with net pay (take-home gold)."
+            },
+            {
+                title: "The Additional Medicare Tax Trap",
+                content: "High-earning adventurers face an additional Medicare tax trap! This extra 0.9% tax kicks in at what income level for single filers?",
+                answers: ["$200,000", "$225,000", "$250,000", "$275,000"],
+                correct: 0,
+                explanation: "Correct! Like a high-level boss battle, the additional 0.9% Medicare tax activates when single adventurers earn over $200,000 annually."
+            },
+            {
+                title: "The Unemployment Insurance Shield",
+                content: "Your employer pays for an invisible shield called unemployment insurance (FUTA). This protects you if you lose your job. What's the current FUTA tax rate that employers pay?",
+                answers: ["0.6%", "0.8%", "1.0%", "1.2%"],
+                correct: 0,
+                explanation: "Excellent! FUTA tax is 0.6% on the first $7,000 of wages - like a protective spell with a small cost but great benefits for unemployed adventurers."
+            },
+            {
+                title: "The Accounting Journal Entry Quest",
+                content: "As a company accountant, you must record payroll. If gross wages are $10,000, FICA taxes are $765, and federal withholding is $1,200, what's the journal entry for net pay?",
+                answers: ["Debit Cash $8,035", "Credit Cash $8,035", "Debit Wages Expense $8,035", "Credit Wages Payable $8,035"],
+                correct: 3,
+                explanation: "Excellent accounting! You credit Wages Payable $8,035 (the net amount owed to employees after deductions). The cash payment comes later!"
+            },
+            {
+                title: "The Social Security Wage Cap",
+                content: "Social Security tax has a magical limit! Once your wages reach a certain amount in a year, you stop paying Social Security tax. What's the 2024 wage cap?",
+                answers: ["$160,200", "$164,400", "$168,600", "$172,800"],
+                correct: 2,
+                explanation: "Perfect! In 2024, Social Security tax stops at $168,600 - like reaching the top of a mountain where this particular tax can't follow you higher."
+            },
+            {
+                title: "The Final Tax Wisdom Challenge",
+                content: "As the ultimate test, you must demonstrate mastery of payroll tax wisdom. If someone earns $60,000 annually, approximately how much will they pay in total FICA taxes (Social Security + Medicare)?",
+                answers: ["$4,350", "$4,590", "$4,830", "$5,070"],
+                correct: 1,
+                explanation: "Masterful! FICA taxes total 7.65% (6.2% Social Security + 1.45% Medicare). On $60,000: $60,000 × 0.0765 = $4,590. You are now a true Tax Champion!"
+            }
+        ];
+
+        // Enhanced particle creation with magic particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                container.appendChild(particle);
+            }
+            
+            // Add magic particles
+            for (let i = 0; i < 8; i++) {
+                const magicParticle = document.createElement('div');
+                magicParticle.className = 'magic-particle';
+                magicParticle.style.left = Math.random() * 100 + '%';
+                magicParticle.style.animationDelay = Math.random() * 8 + 's';
+                magicParticle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                container.appendChild(magicParticle);
+            }
+        }
+
+        function startQuest() {
+            const nameInput = document.getElementById('playerName');
+            if (!nameInput.value.trim()) {
+                alert('Please enter your name, brave adventurer!');
+                return;
+            }
+            
+            playerName = nameInput.value.trim();
+            document.getElementById('questPlayerName').textContent = playerName;
+            document.getElementById('welcomePage').classList.add('hidden');
+            document.getElementById('questPage').classList.remove('hidden');
+            
+            loadQuest();
+            showAchievement("Quest Begun!", "Your adventure starts now!");
+            createCelebrationBurst();
+        }
+
+        function loadQuest() {
+            if (currentQuest >= quests.length) {
+                completeAllQuests();
+                return;
+            }
+
+            const quest = quests[currentQuest];
+            const container = document.getElementById('questContainer');
+            
+            const questImages = [
+                "🆔", "💊", "🏛️", "📋", "🗺️", "👥", "⏰", "💰", "📅", "💵", "⚠️", "🛡️", "📊", "🧢", "🏆"
+            ];
+            
+            container.innerHTML = `
+                <div class="quest-scroll rounded-lg p-4 md:p-8 mb-6">
+                    <div class="flex flex-col md:flex-row items-center mb-6">
+                        <div class="text-6xl md:text-8xl mb-4 md:mb-0 md:mr-6">${questImages[currentQuest]}</div>
+                        <div class="flex-1 text-center md:text-left">
+                            <div class="quest-title text-lg md:text-xl">${quest.title}</div>
+                        </div>
+                    </div>
+                    <div class="quest-content mb-6 text-sm md:text-base">${quest.content}</div>
+                    <div class="grid grid-cols-1 gap-3 md:gap-4">
+                        ${quest.answers.map((answer, index) => `
+                            <button onclick="selectAnswer(${index})" 
+                                    class="answer-btn p-3 md:p-4 rounded-lg text-left hover:shadow-lg transition-all duration-300 text-sm md:text-base">
+                                ${String.fromCharCode(65 + index)}. ${answer}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('questNumber').textContent = currentQuest + 1;
+            updateProgressBar();
+        }
+
+        function selectAnswer(selectedIndex) {
+            const quest = quests[currentQuest];
+            const buttons = document.querySelectorAll('.answer-btn');
+            
+            buttons.forEach((btn, index) => {
+                btn.disabled = true;
+                if (index === quest.correct) {
+                    btn.classList.add('correct-answer');
+                } else if (index === selectedIndex && index !== quest.correct) {
+                    btn.classList.add('wrong-answer');
+                }
+            });
+
+            if (selectedIndex === quest.correct) {
+                score += Math.round(100 / quests.length);
+                updateScore();
+                createConfetti();
+                createCelebrationBurst();
+                flashScreen('correct');
+                
+                // Show Hooray message
+                showHoorayMessage();
+                
+                // Check for achievements
+                if (currentQuest === 0) {
+                    showAchievement("First Blood!", "You've completed your first quest!");
+                } else if (currentQuest === 4) {
+                    showAchievement("Tax Slayer!", "Five quests conquered!");
+                } else if (currentQuest === 9) {
+                    showAchievement("W-4 Master!", "Halfway through your journey!");
+                }
+            } else {
+                flashScreen('wrong');
+                shakeScreen();
+            }
+
+            // Show explanation
+            setTimeout(() => {
+                const container = document.getElementById('questContainer');
+                container.innerHTML += `
+                    <div class="bg-blue-100 border-l-4 border-blue-500 p-4 mb-4 rounded">
+                        <p class="text-blue-800 font-semibold">${quest.explanation}</p>
+                    </div>
+                    <button onclick="nextQuest()" class="btn-dungeon px-6 py-3 rounded-lg font-bold">
+                        Continue Quest →
+                    </button>
+                `;
+            }, 1500);
+        }
+
+        function nextQuest() {
+            currentQuest++;
+            loadQuest();
+        }
+
+        function updateScore() {
+            document.getElementById('currentScore').textContent = `${score}/100`;
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuest + 1) / quests.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function showAchievement(title, description) {
+            const popup = document.getElementById('achievementPopup');
+            document.getElementById('achievementTitle').textContent = title;
+            document.getElementById('achievementDesc').textContent = description;
+            
+            popup.classList.remove('hidden');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 3000);
+        }
+
+        function showHoorayMessage() {
+            const hoorayMessages = [
+                "🎉 HOORAY! Excellent work!",
+                "🎊 HOORAY! You nailed it!",
+                "🥳 HOORAY! Perfect answer!",
+                "🎈 HOORAY! Outstanding!",
+                "✨ HOORAY! Brilliant!",
+                "🌟 HOORAY! Fantastic!",
+                "🎯 HOORAY! Bull's eye!",
+                "💫 HOORAY! Amazing!",
+                "🏆 HOORAY! Champion move!",
+                "🎪 HOORAY! Spectacular!"
+            ];
+            
+            const randomMessage = hoorayMessages[Math.floor(Math.random() * hoorayMessages.length)];
+            
+            // Create temporary hooray popup
+            const hoorayPopup = document.createElement('div');
+            hoorayPopup.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-gradient-to-r from-green-400 to-blue-500 text-white px-8 py-6 rounded-lg shadow-2xl border-4 border-yellow-400 text-center';
+            hoorayPopup.style.animation = 'hoorayBounce 2s ease-out forwards';
+            hoorayPopup.innerHTML = `
+                <div class="text-3xl font-bold mb-2">${randomMessage}</div>
+                <div class="text-lg">Keep up the great work, ${playerName}!</div>
+            `;
+            
+            document.body.appendChild(hoorayPopup);
+            
+            setTimeout(() => {
+                hoorayPopup.remove();
+            }, 2000);
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = ['#FFD700', '#FF6B35', '#F7931E', '#FFE135'][Math.floor(Math.random() * 4)];
+                confetti.style.zIndex = '1000';
+                confetti.style.animation = 'fall 3s linear forwards';
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        function createCelebrationBurst() {
+            const burst = document.createElement('div');
+            burst.className = 'celebration-burst';
+            
+            const colors = ['#FFD700', '#FF6B35', '#F7931E', '#FFE135', '#4CAF50', '#2196F3'];
+            
+            for (let i = 0; i < 12; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'burst-particle';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                const angle = (i / 12) * 2 * Math.PI;
+                const distance = 100 + Math.random() * 50;
+                const dx = Math.cos(angle) * distance + 'px';
+                const dy = Math.sin(angle) * distance + 'px';
+                
+                particle.style.setProperty('--dx', dx);
+                particle.style.setProperty('--dy', dy);
+                
+                burst.appendChild(particle);
+            }
+            
+            document.body.appendChild(burst);
+            
+            setTimeout(() => {
+                burst.remove();
+            }, 1000);
+        }
+
+        function flashScreen(type) {
+            const flash = document.getElementById('screenFlash');
+            flash.className = `screen-flash flash-${type}`;
+            
+            setTimeout(() => {
+                flash.className = 'screen-flash';
+            }, 500);
+        }
+
+        function shakeScreen() {
+            document.body.classList.add('screen-shake');
+            setTimeout(() => {
+                document.body.classList.remove('screen-shake');
+            }, 500);
+        }
+
+        function completeAllQuests() {
+            // Save completion to history
+            saveQuestHistory('completed');
+            
+            document.getElementById('finalPlayerName').textContent = playerName;
+            document.getElementById('finalScore').textContent = `${score}/100`;
+            document.getElementById('completionDate').textContent = `Completed on ${new Date().toLocaleDateString()}`;
+            document.getElementById('completionModal').classList.remove('hidden');
+            
+            showAchievement("Tax Champion!", "You've mastered all payroll tax quests!");
+            createConfetti();
+            createCelebrationBurst();
+            flashScreen('correct');
+        }
+
+        function shareScore() {
+            // Create a canvas for the shareable certificate
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set high resolution canvas size
+            canvas.width = 800;
+            canvas.height = 600;
+            
+            // Clean white background
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Subtle border
+            ctx.strokeStyle = '#E5E7EB';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(40, 40, canvas.width - 80, canvas.height - 80);
+            
+            // Main title
+            ctx.fillStyle = '#1F2937';
+            ctx.font = '600 36px system-ui, -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Quest Completed', canvas.width / 2, 120);
+            
+            // Subtitle
+            ctx.fillStyle = '#6B7280';
+            ctx.font = '400 18px system-ui, -apple-system, sans-serif';
+            ctx.fillText('Dungeon Tax Quest Achievement', canvas.width / 2, 150);
+            
+            // Player name
+            ctx.fillStyle = '#1F2937';
+            ctx.font = '700 32px system-ui, -apple-system, sans-serif';
+            ctx.fillText(playerName, canvas.width / 2, 220);
+            
+            // Achievement text
+            ctx.fillStyle = '#6B7280';
+            ctx.font = '400 16px system-ui, -apple-system, sans-serif';
+            ctx.fillText('Successfully completed all 15 tax challenges', canvas.width / 2, 260);
+            
+            // Score circle background
+            const centerX = canvas.width / 2;
+            const centerY = 360;
+            const radius = 80;
+            
+            // Score circle
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = '#F3F4F6';
+            ctx.fill();
+            ctx.strokeStyle = '#E5E7EB';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            
+            // Score text
+            ctx.fillStyle = '#1F2937';
+            ctx.font = '700 48px system-ui, -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(score.toString(), centerX, centerY + 8);
+            
+            ctx.fillStyle = '#6B7280';
+            ctx.font = '500 16px system-ui, -apple-system, sans-serif';
+            ctx.fillText('out of 100', centerX, centerY + 30);
+            
+            // Performance rating
+            let rating = '';
+            let ratingColor = '';
+            if (score >= 90) {
+                rating = 'Excellent';
+                ratingColor = '#059669';
+            } else if (score >= 80) {
+                rating = 'Great';
+                ratingColor = '#0891B2';
+            } else if (score >= 70) {
+                rating = 'Good';
+                ratingColor = '#7C3AED';
+            } else {
+                rating = 'Complete';
+                ratingColor = '#DC2626';
+            }
+            
+            ctx.fillStyle = ratingColor;
+            ctx.font = '600 20px system-ui, -apple-system, sans-serif';
+            ctx.fillText(rating, centerX, 480);
+            
+            // Completion date
+            ctx.fillStyle = '#9CA3AF';
+            ctx.font = '400 14px system-ui, -apple-system, sans-serif';
+            const completionDate = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            ctx.fillText(`Completed ${completionDate}`, centerX, 520);
+            
+            // Convert canvas to blob and download
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `DungeonTaxQuest_${playerName.replace(/\s+/g, '_')}_${score}pts.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                // Show success message
+                showAchievement("📸 Screenshot Saved!", `Your ${score}/100 achievement has been downloaded!`);
+                
+                // Create celebration effect
+                createCelebrationBurst();
+                createConfetti();
+            }, 'image/png', 1.0);
+        }
+
+        function confirmGoHome() {
+            document.getElementById('confirmModal').classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.add('hidden');
+        }
+
+        function saveQuestHistory(exitReason = 'quit') {
+            if (playerName && (currentQuest > 0 || score > 0)) {
+                // Check if this player already has a completion record
+                const existingCompletionIndex = questHistory.findIndex(entry => 
+                    entry.name === playerName && entry.exitReason === 'completed'
+                );
+                
+                // If player is completing and already has a completion record, don't add duplicate
+                if (exitReason === 'completed' && existingCompletionIndex !== -1) {
+                    return;
+                }
+                
+                // Remove any existing quit records for this player if they're now completing
+                if (exitReason === 'completed') {
+                    questHistory = questHistory.filter(entry => 
+                        !(entry.name === playerName && entry.exitReason === 'quit')
+                    );
+                }
+                
+                const historyEntry = {
+                    name: playerName,
+                    level: exitReason === 'completed' ? 15 : currentQuest + 1,
+                    score: score,
+                    maxScore: 100,
+                    exitReason: exitReason,
+                    date: new Date().toLocaleDateString(),
+                    time: new Date().toLocaleTimeString()
+                };
+                
+                questHistory.unshift(historyEntry); // Add to beginning of array
+                
+                // Keep only last 20 entries
+                if (questHistory.length > 20) {
+                    questHistory = questHistory.slice(0, 20);
+                }
+                
+                localStorage.setItem('dungeonTaxHistory', JSON.stringify(questHistory));
+                updateHistoryDisplay();
+            }
+        }
+
+        function goHome() {
+            // Save history before resetting if player made progress
+            if (playerName && (currentQuest > 0 || score > 0)) {
+                saveQuestHistory('quit');
+            }
+            
+            currentQuest = 0;
+            score = 0;
+            playerName = '';
+            document.getElementById('questPage').classList.add('hidden');
+            document.getElementById('welcomePage').classList.remove('hidden');
+            document.getElementById('completionModal').classList.add('hidden');
+            document.getElementById('confirmModal').classList.add('hidden');
+            document.getElementById('playerName').value = '';
+            updateScore();
+        }
+
+        // Add falling animation for confetti and hooray bounce
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+            @keyframes hoorayBounce {
+                0% {
+                    transform: translate(-50%, -50%) scale(0) rotate(-180deg);
+                    opacity: 0;
+                }
+                50% {
+                    transform: translate(-50%, -50%) scale(1.2) rotate(0deg);
+                    opacity: 1;
+                }
+                70% {
+                    transform: translate(-50%, -50%) scale(0.9) rotate(0deg);
+                    opacity: 1;
+                }
+                85% {
+                    transform: translate(-50%, -50%) scale(1.05) rotate(0deg);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        function toggleCalculator() {
+            const content = document.getElementById('calculatorContent');
+            const toggle = document.getElementById('calcToggle');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                toggle.textContent = 'Hide';
+            } else {
+                content.style.display = 'none';
+                toggle.textContent = 'Show';
+            }
+        }
+
+        function drawPieChart(federalTax, ficaTax, stateTax, netPay) {
+            const canvas = document.getElementById('taxChart');
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 100;
+            
+            const total = federalTax + ficaTax + stateTax + netPay;
+            const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4'];
+            const labels = ['Federal', 'FICA', 'State', 'Net Pay'];
+            const values = [federalTax, ficaTax, stateTax, netPay];
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            let currentAngle = -Math.PI / 2;
+            
+            values.forEach((value, index) => {
+                const sliceAngle = (value / total) * 2 * Math.PI;
+                
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+                ctx.closePath();
+                ctx.fillStyle = colors[index];
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                
+                // Add labels
+                const labelAngle = currentAngle + sliceAngle / 2;
+                const labelX = centerX + Math.cos(labelAngle) * (radius * 0.7);
+                const labelY = centerY + Math.sin(labelAngle) * (radius * 0.7);
+                
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(labels[index], labelX, labelY);
+                
+                currentAngle += sliceAngle;
+            });
+        }
+
+        function calculateTax() {
+            const salary = parseFloat(document.getElementById('salary').value) || 0;
+            const filingStatus = document.getElementById('filingStatus').value;
+            const state = document.getElementById('state').value;
+            
+            if (salary <= 0) {
+                alert('Please enter a valid salary amount!');
+                return;
+            }
+            
+            // 2024 Tax Brackets (Single)
+            const singleBrackets = [
+                { min: 0, max: 11000, rate: 0.10 },
+                { min: 11000, max: 44725, rate: 0.12 },
+                { min: 44725, max: 95375, rate: 0.22 },
+                { min: 95375, max: 182050, rate: 0.24 },
+                { min: 182050, max: 231250, rate: 0.32 },
+                { min: 231250, max: 578125, rate: 0.35 },
+                { min: 578125, max: Infinity, rate: 0.37 }
+            ];
+            
+            // 2024 Tax Brackets (Married Filing Jointly)
+            const marriedBrackets = [
+                { min: 0, max: 22000, rate: 0.10 },
+                { min: 22000, max: 89450, rate: 0.12 },
+                { min: 89450, max: 190750, rate: 0.22 },
+                { min: 190750, max: 364200, rate: 0.24 },
+                { min: 364200, max: 462500, rate: 0.32 },
+                { min: 462500, max: 693750, rate: 0.35 },
+                { min: 693750, max: Infinity, rate: 0.37 }
+            ];
+            
+            const brackets = filingStatus === 'single' ? singleBrackets : marriedBrackets;
+            const standardDeduction = filingStatus === 'single' ? 14600 : 29200;
+            
+            // Calculate Federal Tax
+            const taxableIncome = Math.max(0, salary - standardDeduction);
+            let federalTax = 0;
+            
+            for (let bracket of brackets) {
+                if (taxableIncome > bracket.min) {
+                    const taxableAtThisBracket = Math.min(taxableIncome, bracket.max) - bracket.min;
+                    federalTax += taxableAtThisBracket * bracket.rate;
+                }
+            }
+            
+            // Calculate FICA Taxes
+            const socialSecurityCap = 168600;
+            const socialSecurityTax = Math.min(salary, socialSecurityCap) * 0.062;
+            const medicareTax = salary * 0.0145;
+            const additionalMedicareTax = salary > 200000 ? (salary - 200000) * 0.009 : 0;
+            const ficaTax = socialSecurityTax + medicareTax + additionalMedicareTax;
+            
+            // Calculate State Tax
+            let stateTax = 0;
+            if (state === 'low-tax') {
+                stateTax = salary * 0.03;
+            } else if (state === 'high-tax') {
+                stateTax = salary * 0.08;
+            }
+            
+            const totalTax = federalTax + ficaTax + stateTax;
+            const netPay = salary - totalTax;
+            
+            // Calculate percentages
+            const federalPercent = ((federalTax / salary) * 100).toFixed(1);
+            const ficaPercent = ((ficaTax / salary) * 100).toFixed(1);
+            const statePercent = ((stateTax / salary) * 100).toFixed(1);
+            const netPercent = ((netPay / salary) * 100).toFixed(1);
+            
+            // Display Results
+            document.getElementById('federalTax').textContent = '$' + Math.round(federalTax).toLocaleString();
+            document.getElementById('ficaTax').textContent = '$' + Math.round(ficaTax).toLocaleString();
+            document.getElementById('stateTax').textContent = '$' + Math.round(stateTax).toLocaleString();
+            document.getElementById('netPay').textContent = '$' + Math.round(netPay).toLocaleString();
+            
+            document.getElementById('federalPercent').textContent = federalPercent + '%';
+            document.getElementById('ficaPercent').textContent = ficaPercent + '%';
+            document.getElementById('statePercent').textContent = statePercent + '%';
+            document.getElementById('netPercent').textContent = netPercent + '%';
+            
+            document.getElementById('taxResults').classList.remove('hidden');
+            
+            // Draw pie chart
+            drawPieChart(federalTax, ficaTax, stateTax, netPay);
+        }
+
+        function toggleHistory() {
+            const historySection = document.getElementById('historySection');
+            const toggleButton = document.getElementById('historyToggle');
+            
+            if (historySection.classList.contains('hidden')) {
+                historySection.classList.remove('hidden');
+                toggleButton.textContent = '📜 Hide Quest History 📜';
+                updateHistoryDisplay();
+            } else {
+                historySection.classList.add('hidden');
+                toggleButton.textContent = '📜 View Quest History 📜';
+            }
+        }
+
+        function updateHistoryDisplay() {
+            const historyContent = document.getElementById('historyContent');
+            
+            if (questHistory.length === 0) {
+                historyContent.innerHTML = `
+                    <div class="text-center text-yellow-200 py-8">
+                        <div class="text-4xl mb-4">🗡️</div>
+                        <p class="text-lg">No adventures recorded yet!</p>
+                        <p class="text-sm">Start your first quest to see your journey here.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const historyHTML = questHistory.map((entry, index) => {
+                const statusIcon = entry.exitReason === 'completed' ? '🏆' : 
+                                 entry.exitReason === 'quit' ? '🚪' : '⚔️';
+                const statusText = entry.exitReason === 'completed' ? 'COMPLETED' : 
+                                 entry.exitReason === 'quit' ? 'QUIT' : 'IN PROGRESS';
+                const statusColor = entry.exitReason === 'completed' ? 'text-green-400' : 
+                                  entry.exitReason === 'quit' ? 'text-red-400' : 'text-yellow-400';
+                
+                return `
+                    <div class="bg-gradient-to-r from-yellow-100 to-orange-100 rounded-lg p-4 border-2 border-yellow-600">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <div class="flex-1 mb-3 md:mb-0">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <span class="text-2xl">${statusIcon}</span>
+                                    <div>
+                                        <h4 class="font-bold text-lg text-gray-800">${entry.name}</h4>
+                                        <p class="text-sm text-gray-600">${entry.date} at ${entry.time}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-6">
+                                <div class="text-center">
+                                    <div class="text-sm text-gray-600">Level Reached</div>
+                                    <div class="font-bold text-xl text-gray-800">${entry.level}/15</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-sm text-gray-600">Score</div>
+                                    <div class="font-bold text-xl text-gray-800">${entry.score}/${entry.maxScore}</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-sm text-gray-600">Status</div>
+                                    <div class="font-bold text-sm ${statusColor}">${statusText}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="w-full bg-gray-300 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full transition-all duration-300" 
+                                     style="width: ${(entry.level / 15) * 100}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            historyContent.innerHTML = historyHTML;
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all quest history? This cannot be undone!')) {
+                questHistory = [];
+                localStorage.removeItem('dungeonTaxHistory');
+                updateHistoryDisplay();
+            }
+        }
+
+        // Initialize particles and load history
+        createParticles();
+        updateHistoryDisplay();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9762d559705247ea',t:'MTc1NjM3Mzg4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
