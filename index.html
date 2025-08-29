@@ -104,6 +104,15 @@
             animation: scrollGlow 4s ease-in-out infinite alternate;
         }
         
+        @media (max-width: 768px) {
+            .quest-scroll {
+                margin: 0 -1rem;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+        }
+        
         @keyframes scrollGlow {
             0% { box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 165, 0, 0.2); }
             100% { box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 165, 0, 0.4); }
@@ -236,6 +245,16 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            min-height: 44px;
+        }
+        
+        @media (max-width: 768px) {
+            .btn-dungeon {
+                min-height: 50px;
+                font-size: 16px;
+                padding: 0.75rem 1.5rem;
+                touch-action: manipulation;
+            }
         }
         
         .btn-dungeon::before {
@@ -304,6 +323,14 @@
             color: #5d4037;
         }
         
+        @media (max-width: 768px) {
+            .quest-content {
+                font-size: 1rem;
+                line-height: 1.7;
+                padding: 0 0.5rem;
+            }
+        }
+        
         .answer-btn {
             background: linear-gradient(145deg, #f4e4bc, #e6d3a3);
             border: 2px solid #8b4513;
@@ -312,6 +339,18 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        
+        @media (max-width: 768px) {
+            .answer-btn {
+                min-height: 70px;
+                font-size: 16px;
+                padding: 1rem !important;
+                margin-bottom: 0.5rem;
+            }
         }
         
         .answer-btn::before {
@@ -774,11 +813,11 @@
                 explanation: "Excellent! FICA (Federal Insurance Contributions Act) is like a magical contract that funds Social Security and Medicare for all adventurers."
             },
             {
-                title: "The Overtime Treasure Chest",
-                content: "You work extra hours and discover overtime pay! For non-exempt employees, overtime is like finding bonus treasure. What's the standard overtime rate?",
-                answers: ["1.25 times regular pay", "1.5 times regular pay", "1.75 times regular pay", "2 times regular pay"],
+                title: "The Three-Layer Tax Kingdom",
+                content: "You discover the U.S. tax system is like a three-layer cake with different portions. The system has federal (largest), state (varies by kingdom), and local (smallest) taxation layers. Which layer takes the largest portion of your tax gold?",
+                answers: ["State taxes are largest", "Federal is the largest portion", "Local taxes dominate", "All layers are equal"],
                 correct: 1,
-                explanation: "Perfect! Overtime is 1.5 times your regular rate - like getting a 50% bonus treasure for working more than 40 hours per week!"
+                explanation: "Excellent! Federal taxes are like the biggest layer of the cake - they typically take the largest portion of your tax payments, followed by state and local taxes."
             },
             {
                 title: "The 401(k) Treasure Vault",
@@ -802,11 +841,11 @@
                 explanation: "Perfect! Deductions are everything taken from your gross pay - taxes, insurance, retirement contributions - leaving you with net pay (take-home gold)."
             },
             {
-                title: "The Additional Medicare Tax Trap",
-                content: "High-earning adventurers face an additional Medicare tax trap! This extra 0.9% tax kicks in at what income level for single filers?",
-                answers: ["$200,000", "$225,000", "$250,000", "$275,000"],
-                correct: 0,
-                explanation: "Correct! Like a high-level boss battle, the additional 0.9% Medicare tax activates when single adventurers earn over $200,000 annually."
+                title: "The 401(k) Magic Vault Benefits",
+                content: "You discover a magical 401(k) vault that offers two powerful benefits: contributions reduce your current taxable income, and employer matching is like finding free treasure! What's the main tax benefit of contributing to a 401(k)?",
+                answers: ["Eliminates all taxes", "Lowers current taxable income", "Increases your salary", "Reduces state taxes only"],
+                correct: 1,
+                explanation: "Perfect! Contributing to a 401(k) lowers your current taxable income - like having a magic shield that protects part of your gold from being taxed this year!"
             },
             {
                 title: "The Unemployment Insurance Shield",
@@ -823,11 +862,11 @@
                 explanation: "Excellent accounting! You credit Wages Payable $8,035 (the net amount owed to employees after deductions). The cash payment comes later!"
             },
             {
-                title: "The Social Security Wage Cap",
-                content: "Social Security tax has a magical limit! Once your wages reach a certain amount in a year, you stop paying Social Security tax. What's the 2024 wage cap?",
-                answers: ["$160,200", "$164,400", "$168,600", "$172,800"],
-                correct: 2,
-                explanation: "Perfect! In 2024, Social Security tax stops at $168,600 - like reaching the top of a mountain where this particular tax can't follow you higher."
+                title: "The Effective Tax Rate Calculation",
+                content: "You must calculate your effective tax rate - the true percentage of income paid in taxes. It's calculated as total tax ÷ total income. If someone earns $100,000 and pays $18,000 in total taxes, what's their effective tax rate?",
+                answers: ["15%", "18%", "20%", "22%"],
+                correct: 1,
+                explanation: "Excellent! Effective tax rate = Total tax ÷ Income. So $18,000 ÷ $100,000 = 18%. This shows the real percentage of income going to taxes!"
             },
             {
                 title: "The Final Tax Wisdom Challenge",
@@ -1546,5 +1585,5 @@
         createParticles();
         updateHistoryDisplay();
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9762d559705247ea',t:'MTc1NjM3Mzg4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9769d3a12606c03d',t:'MTc1NjQ0NzIxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
